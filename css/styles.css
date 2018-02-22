@@ -1,0 +1,12 @@
+html, body {
+  background-color: white;
+  height: 100%;
+  text-align: center;
+}
+
+#plot {
+  background-color: grey;
+  height: 60%;
+  width: 80%;
+  margin: auto;
+}
