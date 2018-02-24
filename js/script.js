@@ -30,7 +30,7 @@ var rowConverter = function(d) {
 
 let handleMouseOver = (dot, d) => {
 	// Use mouse coordinates for tooltip position
-	let xPos = d3.event.clientX
+	let xPos = d3.event.clientX + 10
 	let yPos = d3.event.clientY - 40
 
 	// Update the tooltip position
@@ -46,7 +46,7 @@ let handleMouseOver = (dot, d) => {
 	// Show the tooltip
 	d3.select("#tooltip").classed("hidden", false)
 
-  // Highlight the current bar
+  // Highlight the current dot
 	d3.select(dot).attr("fill", "steelblue")
 }
 
@@ -54,24 +54,23 @@ let handleMouseOut = dot => {
 	//Hide the tooltip again
 	d3.select("#tooltip").classed("hidden", true)
 
-	// Remove highlight from the current bar
+	// Remove highlight from the current dot
 	d3.select(dot)
 		.transition()
 		.duration(250)
     .attr("fill", "none");
-    //.attr("fill", colours[categoryIndex])
 }
 
 
 // Load data for both men (0) and women (1)
-var dataset;
-var womensDataset;
-var mensDataset;
-
 d3.csv("../data/allData.csv", rowConverter, function(data) {
+  var dataset;
+  var womensDataset;
+  var mensDataset;
+
   dataset = data;
   //Print data to console as table, for verification
-  console.table(dataset, ["index", "year", "time", "winner", "country"]);
+  //console.table(dataset, ["index", "year", "time", "winner", "country"]);
 
   //Create separate datasets for men and women
   mensDataset = dataset.slice(0,120);
@@ -90,7 +89,7 @@ d3.csv("../data/allData.csv", rowConverter, function(data) {
       .domain([6000, maxY])
       .range([h-paddingBottom-paddingTop,0]);
 
-  // Plot symbols
+  // Plot mens data
   svg1.selectAll(".pointM")
       .data(mensDataset)
       .enter().append("path")
@@ -106,6 +105,7 @@ d3.csv("../data/allData.csv", rowConverter, function(data) {
         handleMouseOut(this)
       });
 
+  // Plot womens data
   svg1.selectAll(".pointW")
       .data(womensDataset)
       .enter().append("path")
