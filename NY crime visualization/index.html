@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Visualizing crime in New York City</title>
+        <script src="https://d3js.org/d3.v4.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="css/styles.css">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+
+    <body>
+      <h1>Crime in New York City</h1>
+      <h2>Total crime in the 5 borroughs</h2>
+
+      <div id="piePlot">
+        <div id="pieTooltip" class="hidden">
+					<strong><p>Winner: <span id="winner_p"/></strong></p>
+						<p>Country: <span id="country_p"/></p>
+            <p>Time: <span id="time_p"/></p>
+				</div>
+      </div>
+
+      <h2>Crime over time in Manhattan</h2>
+      <div id="stackPlot" onclick="changeDataset()">
+        <div id="stackTooltip" class="hidden">
+          <strong><p>Winner: <span id="winner_p"/></strong></p>
+            <p>Country: <span id="country_p"/></p>
+            <p>Time: <span id="time_p"/></p>
+        </div>
+      </div>
+
+      <h2>Borough connections</h2>
+      <div id="forcePlot" onclick="changeDataset()">
+        <div id="forceTooltip" class="hidden">
+          <strong><p>Winner: <span id="winner_p"/></strong></p>
+            <p>Country: <span id="country_p"/></p>
+            <p>Time: <span id="time_p"/></p>
+        </div>
+      </div>
+
+
+      <script src="js/script.js"></script>
+    </body>
+</html>
