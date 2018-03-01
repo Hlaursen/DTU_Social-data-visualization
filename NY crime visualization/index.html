@@ -12,8 +12,8 @@
       <h1>Crime in New York City</h1>
       <h2>Total crime in the 5 borroughs</h2>
 
-      <div id="piePlot">
-        <div id="pieTooltip" class="hidden">
+      <div id="piePlot" onclick="changeDataset()" class="plot">
+        <div id="pieTooltip" class="hidden" class="allTooltips">
 					<strong><p>Winner: <span id="winner_p"/></strong></p>
 						<p>Country: <span id="country_p"/></p>
             <p>Time: <span id="time_p"/></p>
@@ -21,8 +21,8 @@
       </div>
 
       <h2>Crime over time in Manhattan</h2>
-      <div id="stackPlot" onclick="changeDataset()">
-        <div id="stackTooltip" class="hidden">
+      <div id="stackPlot" onclick="changeDataset()" class="plot">
+        <div id="stackTooltip" class="hidden" class="allTooltips">
           <strong><p>Winner: <span id="winner_p"/></strong></p>
             <p>Country: <span id="country_p"/></p>
             <p>Time: <span id="time_p"/></p>
@@ -30,8 +30,8 @@
       </div>
 
       <h2>Borough connections</h2>
-      <div id="forcePlot" onclick="changeDataset()">
-        <div id="forceTooltip" class="hidden">
+      <div id="forcePlot" onclick="changeDataset()" class="plot">
+        <div id="forceTooltip" class="hidden" class="allToolTips">
           <strong><p>Winner: <span id="winner_p"/></strong></p>
             <p>Country: <span id="country_p"/></p>
             <p>Time: <span id="time_p"/></p>

@@ -4,25 +4,24 @@ html, body {
   text-align: center;
 }
 
+.plot {
+  height: calc((100%-10%)/3);
+  width: 40%;
+}
+
 #piePlot {
   background-color: grey;
-  height: 30%;
-  width: 40%;
   margin: auto;
 }
 
 
 #stackPlot {
   background-color: blue;
-  height: 30%;
-  width: 40%;
   margin: auto;
 }
 
 #forcePlot {
   background-color: steelblue;
-  height: 30%;
-  width: 40%;
   margin: auto;
 }
 #pieTooltip, #stackTooltip, #forceTooltip {
@@ -38,7 +37,8 @@ html, body {
 #pieTooltip.hidden, #stackTooltip.hidden, #forceTooltip.hidden {
 	display: none;
 }
-#tooltip p {
+
+.allTooltips p {
 	margin: 0;
 	font-family: sans-serif; font-size: 10px;
 }
