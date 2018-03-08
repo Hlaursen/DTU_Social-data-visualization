@@ -5,7 +5,6 @@ html, body {
 }
 
 .plot {
-  height: calc((100%-10%)/3);
   width: 40%;
 }
 
@@ -13,7 +12,6 @@ html, body {
   background-color: grey;
   margin: auto;
 }
-
 
 #stackPlot {
   background-color: blue;
@@ -28,17 +26,28 @@ html, body {
 	position: absolute;
 	width: auto;
 	height: auto;
-	padding: 10px;
+	/* padding: 10px; */
 	background-color: #404040;
 	color: white;
 	border-radius: 5px;
 	pointer-events: none;
+	/* font-family: sans-serif;   */
 }
+
 #pieTooltip.hidden, #stackTooltip.hidden, #forceTooltip.hidden {
 	display: none;
 }
 
 .allTooltips p {
-	margin: 0;
-	font-family: sans-serif; font-size: 10px;
+	/* margin: 0; */
+	font-family: sans-serif;
+  /* font-size: 10px; */
+}
+
+.labelText {
+  fill: white;
+}
+
+.legendText {
+  fill: white;
 }

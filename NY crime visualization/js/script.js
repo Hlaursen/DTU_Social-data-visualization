@@ -1,154 +1,174 @@
-// Create SVG and padding variables
-var h = document.getElementsByClassName("plot")[0].clientHeight;
-var w = document.getElementsByClassName("plot")[0].clientWidth;
-var paddingRight = 0.3*w;
-var paddingPercentage = 0.05;
-var paddingBottom = paddingPercentage*h;
-var paddingLeft = paddingPercentage*w;
-var paddingTop = paddingPercentage*h;
+//GENERAL VARIABLE INITIALIZATION
+let w = document.getElementsByClassName("plot")[0].clientWidth;
+let h = w*0.75;
+let paddingRight = 0.3*w;
+let paddingPercentage = 0.05;
+let paddingBottom = paddingPercentage*h;
+let paddingLeft = paddingPercentage*w;
+let paddingTop = paddingPercentage*h;
 
-// Plot variable definition
-let piePlot = d3.select("#piePlot");
-//let title = plot.append("h4").text("Hello");
-
-var pieSvg = piePlot.append("svg")
-    .attr("height", h)
-    .attr("width", w);
-
-// FUNCTION DEFINITIONS
-//var formatSeconds = d3.timeParse("%H:%M:%S");
-// rowConverter function
-
-var rowConverterPie = function(d) {
+let rowConverterPie = function(d) {
   return {
       borough: d.Borough,
       crimeCount: +d.CrimeCount
     };
   }
 
-var rowConverterStack = function(d) {
+let rowConverterStack = function(d) {
   return {
       borough: d.Borough,
       crimeCount: +d.CrimeCount
     };
   }
-//
-// let handleMouseOver = (dot, d) => {
-// 	// Use mouse coordinates for tooltip position
-// 	let xPos = d3.event.clientX + 10
-// 	let yPos = d3.event.clientY - 40
-//
-// 	// Update the tooltip position
-//   d3.select("#tooltip")
-// 		.style("left", xPos + "px")
-//     .style("top", yPos + "px")
-//
-// 	// Update the tooltip information
-// 	d3.select("#winner_p").text(d.winner);
-//   d3.select("#country_p").text(d.country);
-//   d3.select("#time_p").text(d.time);
-//
-// 	// Show the tooltip
-// 	d3.select("#tooltip").classed("hidden", false)
-//
-//   // Highlight the current dot
-// 	d3.select(dot).attr("fill", "steelblue")
-// }
-//
-// let handleMouseOut = dot => {
-// 	//Hide the tooltip again
-// 	d3.select("#tooltip").classed("hidden", true)
-//
-// 	// Remove highlight from the current dot
-// 	d3.select(dot)
-// 		.transition()
-// 		.duration(250)
-//     .attr("fill", "none");
-// }
-//
-//
-var pieDataset;
-// Load data for both men (0) and women (1)
-d3.csv("../data/pie.csv", rowConverterPie, function(data) {
 
-  pieDataset = data;
+//CREATE PIE PLOT
+d3.csv("../NY crime visualization/data/pie.csv", rowConverterPie, function(data) {
+  //FUNCTIONS
+  let handleMouseOver = (slice, d) => {
+  	// Use mouse coordinates for tooltip position
+  	let xPos = d3.event.clientX + 10
+  	let yPos = d3.event.clientY - 40
+
+    // Update the tooltip position
+    d3.select("#pieTooltip")
+  		.style("left", xPos + "px")
+      .style("top", yPos + "px")
+
+  	// Update the tooltip information
+  	d3.select("#borough_p").text(d.data.borough);
+    d3.select("#crime_p").text(d.data.crimeCount);
+
+    // Show the tooltip
+  	d3.select("#pieTooltip").classed("hidden", false)
+
+    // Highlight the current slice
+  	d3.select(slice).attr("opacity", 0.75).style("cursor", "pointer");
+  }
+
+  let handleMouseOut = slice => {
+  	//Hide the tooltip again
+  	d3.select("#pieTooltip").classed("hidden", true)
+
+  	// Remove highlight from the current slice
+  	d3.select(slice)
+  		.transition()
+  		.duration(250)
+      .attr("opacity", 1.0);
+  };
+
+  let handleMouseHover = item => {
+    d3.select(item).style("cursor", "pointer").style("opacity", 0.75);
+  }
+  let handleMouseHoverOut = item => {
+    d3.select(item).style("opacity", 1.0);
+  }
+
+  //LOAD DATASET
+  let pieDataset = data;
   let pieSum = 0;
   pieDataset.forEach(function(entry) {
     pieSum += entry.crimeCount;
   });
 
   //Print data to console as table, for verification
-  console.table(pieDataset, ["borough", "crimeCount"]);
+  //console.table(pieDataset, ["borough", "crimeCount"]);
 
-  //Setup for pieChart
-  var color = d3.scaleOrdinal(d3.schemeCategory10);
-  var outerRadius = h / 2;
-  var innerRadius = h / 4;
-  var arc = d3.arc()
+  //DRAW PIE CHART
+  //Setup variables for pie chart
+  let color = d3.scaleOrdinal(d3.schemeCategory10);
+  let outerRadius = h / 3;
+  let innerRadius = h / 7;
+  let outerDiameter = outerRadius*2;
+  let squareDimensions = (h/2)/10;
+
+  let arc = d3.arc()
       .innerRadius(innerRadius)
       .outerRadius(outerRadius);
 
-  var pie = d3.pie()
+  let piePlot = d3.select("#piePlot");
+  let pieSvg = piePlot.append("svg")
+      .attr("height", h)
+      .attr("width", w);
+
+  let pieGroup = pieSvg.append("g")
+      .attr("class", "pieGroup");
+
+  let pie = d3.pie()
       .value(function(d) { return d.crimeCount; });
 
-  //Set up groups
-	var arcs = pieSvg.selectAll("g.arc")
+	let arcs = pieGroup.selectAll("g.arc")
 				  .data(pie(pieDataset))
 				  .enter()
 				  .append("g")
 				  .attr("class", "arc")
 				  .attr("transform", "translate(" + outerRadius + "," + outerRadius + ")");
 
+  arcs.attr("transform", "translate(" + outerRadius*1.25 + "," + h/2 + ")");
+
   //Draw arc paths
 	arcs.append("path")
 	    .attr("fill", function(d, i) {
-	    	return color(i);
+        return color(i);
 	    })
 	    .attr("d", arc);
 
-	//Labels
+  arcs.on("mouseover", function(d) {
+      handleMouseOver(this, d)
+    })
+    .on("mouseout", function(d) {handleMouseOut(this,d); });
+
+	//Wedge labels
 	arcs.append("text")
-	    .attr("transform", function(d) {
+      .attr("class", "labelText")
+      .attr("transform", function(d) {
 	    	return "translate(" + arc.centroid(d) + ")";
 	    })
 	    .attr("text-anchor", "middle")
-      .attr("fill", "white")
+      .attr("font-size", squareDimensions)
 	    .text(function(d) {
-        console.log(d.data.borough);
         return Math.floor(d.value/pieSum*100)+"%";
 	    });
 
-  //Legend
-  pieSvg.selectAll("rect")
+  //LEGEND
+  //Group rects and text together
+  let legend = pieSvg
+      .append("g")
+      .attr("transform", function() {return "translate(" + (((w-outerDiameter)/3)+outerDiameter) + "," + (h/4) + ")"; });
+
+  legend.selectAll("rect")
     .data(pieDataset)
     .enter()
     .append('rect')
-    .attr("x", (w-100))
-    .attr("y", function(d,i) {return 100+i*20; })
-    .attr("width", 10)
-    .attr("height", 10)
+    .attr("y", function(d,i) {return (2*i*squareDimensions)+squareDimensions/2; })
+    .attr("width", squareDimensions)
+    .attr("height", squareDimensions)
     .style("fill", function (d, i) {
-    return color(i) });
-    // This part still doesn't work
-  pieSvg.selectAll("text")
+    return color(i) })
+    .on("click", function(d) {console.log("Do something here. Borough: " + d.borough); })
+    .on("mouseover", function() {handleMouseHover(this)} )
+    .on("mouseout", function() {handleMouseHoverOut(this)} );
+
+  legend.selectAll("text")
     .data(pieDataset)
     .enter()
-    .append('text')
-    .attr("x", (w-100))
-    .attr("y", function(d,i) {return 100+i*20; })
-    .text(function (d) {
-      console.log("Hello");
-      return d.borough; });
+    .append("text")
+    .attr("class", "legendText")
+    .attr("x", 2*squareDimensions)
+    .attr("y", function(d,i) {return (2*i*squareDimensions)+squareDimensions/2; })
+    .attr("font-size", squareDimensions)
+    .attr("dominant-baseline", "hanging") //y position based on top line of text
+    .text(function(d) {return d.borough; })
+    .on("click", function(d) {console.log("Do something here. Borough: " + d.borough); })
+    .on("mouseover", function() {handleMouseHover(this)} )
+    .on("mouseout", function() {handleMouseHoverOut(this)} );
 
-  // legend = pieSvg.append("g")
-  //     .attr("class","legend")
-  //     .attr("transform","translate(50,30)")
-  //     .style("font-size","12px")
-  //     .call(d3.legend);
+  // //Set tooltip fontsize to change dynamically
+  d3.select("#pieTooltip")
+    .style("font-size", (squareDimensions*0.8)+"px");
 
 }); //End of d3.csv for pieData
 
-var stackDataset;
+let stackDataset;
 
 
 
