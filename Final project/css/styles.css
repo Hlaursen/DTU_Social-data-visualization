@@ -22,59 +22,9 @@ html, body {
 }
 
 .zip {
-  fill: red; 
-}
-
-/* #geoPlotTimeLine {
-  background-color: #d9d9d9;
-  margin: auto;
-  border-style: dashed;
-  border-color: black;
-  /* display: inline-block; */
-/* }
-
-#geoPlotTime, #geoPlotHist {
-  background-color: #d9d9d9; */
-  /* margin: auto; */
-  /* border-style: dashed;
-  border-color: black;
-  display: inline-block;
-}
-
-
-.label {
-  text-anchor: middle;
-} */
-
-.area {
   fill: red;
 }
 
-.hidden {
-  display: none;
-}
-
-.non-brushed {
-  fill: #a1d99b;
-  stroke: gray;
-  stroke-width: 0.25;
-  opacity: 0.6;
-}
-
-.brushed {
-  fill: #005a32;
-  stroke: gray;
-  stroke-width: 0.25;
-  opacity: 0.75;
-}
-
-.crossbrushed{
-  fill: #ffffff;
-  stroke: gray;
-  stroke-width: 0.25;
-  opacity: 0.90;
-}
-
-.brushed-timeline {
-  fill: black;
+.area {
+  fill: red;
 }
