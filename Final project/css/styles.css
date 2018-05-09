@@ -8,17 +8,21 @@ html, body {
   width: 40%;
 }
 
-#timeline {
+#containerTimeline {
   background-color: #d9d9d9;
   margin: auto;
   border-style: dashed;
   border-color: black;
 }
 
-#geoPlot, #histoPlot {
+#containerGeo, #containerHisto {
   background-color: #d9d9d9;
   /* margin: auto; */
   display: inline-block;
+}
+
+.zip {
+  fill: red; 
 }
 
 /* #geoPlotTimeLine {
